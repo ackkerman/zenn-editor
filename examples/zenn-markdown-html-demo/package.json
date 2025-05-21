@@ -1,0 +1,12 @@
+{
+  "name": "zmh-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "zenn-markdown-html": "file:../../packages/zenn-markdown-html"
+  }
+}
