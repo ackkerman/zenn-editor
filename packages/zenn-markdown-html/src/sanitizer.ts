@@ -21,6 +21,7 @@ const tags = [
   'h6',
   'hr',
   'iframe',
+  'audio',
   'img',
   'input',
   'li',
@@ -77,6 +78,7 @@ const attributes = {
     'style',
     'width',
   ],
+  audio: ['src', 'controls'],
   img: ['alt', 'class', 'height', 'loading', 'src', 'title', 'width'],
   input: ['checked', 'class', 'type'],
   li: ['class', 'id', 'data-line'],
@@ -123,5 +125,6 @@ export const sanitize = (html: string) =>
       'input',
       'link',
       'meta',
+      'audio',
     ],
   });

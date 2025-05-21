@@ -14,6 +14,7 @@ import { mdLinkAttributes } from './utils/md-link-attributes';
 import { mdSourceMap } from './utils/md-source-map';
 import { mdLinkifyToCard } from './utils/md-linkify-to-card';
 import { mdRendererFence } from './utils/md-renderer-fence';
+import { mdAudio } from './utils/md-audio';
 import {
   containerDetailsOptions,
   containerMessageOptions,
@@ -45,6 +46,7 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     .use(mdFootnote)
     .use(mdInlineComments)
     .use(markdownItImSize)
+    .use(mdAudio)
     .use(mdLinkAttributes)
     .use(mdCustomBlock, markdownOptions)
     .use(mdRendererFence, markdownOptions)
