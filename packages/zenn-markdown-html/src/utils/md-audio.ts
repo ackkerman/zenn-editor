@@ -1,25 +1,18 @@
 import MarkdownIt from 'markdown-it';
 
-function decodeEntities(str: string): string {
-  return str.replace(/&amp;/g, '&').replace(/&quot;/g, '"');
-}
+// Detect plain <audio> tags when HTML parsing is disabled
+const AUDIO_RE = /^<audio[\s\S]*?>.*?<\/audio>$|^<audio[\s\S]*?\/>$/i;
 
-/**
- * Convert escaped <audio> tags back to real HTML elements.
- */
-export function unescapeAudioTag(html: string): string {
-  return html
-    .replace(/&lt;(audio\b.*?)&gt;/g, (_, tag) => `<${decodeEntities(tag)}>`)
-    .replace(/&lt;\/audio&gt;/g, '</audio>');
-}
-
-/**
- * Markdown-it plugin that restores <audio> tags when HTML parsing is disabled.
- */
 export function mdAudio(md: MarkdownIt): void {
-  const originalRender = md.render.bind(md);
-  md.render = (...args) => {
-    const html = originalRender(...args);
-    return unescapeAudioTag(html);
-  };
+  md.core.ruler.after('inline', 'md-audio', (state) => {
+    for (const token of state.tokens) {
+      if (token.type !== 'inline' || !token.children) continue;
+      for (const child of token.children) {
+        if (child.type === 'text' && AUDIO_RE.test(child.content.trim())) {
+          child.type = 'html_inline';
+          child.tag = '';
+        }
+      }
+    }
+  });
 }
